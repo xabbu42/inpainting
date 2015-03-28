@@ -23,7 +23,7 @@ u = start;
 while it < opts.iterations && ~converged
     gradu  = grad(u);
     costu  = cost(u);
-    linear = opts.alpha * sum(sum(gradu .* u)); %TODO should not assume 2 dimensionsal problem
+    linear = opts.alpha * sum(sum(gradu .^ 2)); %TODO should not assume 2 dimensionsal problem
     
     % backtrack search
     t = 1;
@@ -32,15 +32,16 @@ while it < opts.iterations && ~converged
     end
     
     % Update
+    step = t * gradu;
     u = u - t * gradu;
    
     % Stopping criterion
-    if norm(gradu, 'fro') < max_gradnorm
+    if norm(step, 'fro') < max_gradnorm
         converged = true;
     end
     
     it = it + 1;
 end
-
+disp(it);
 end
 
