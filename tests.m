@@ -1,5 +1,7 @@
 import matlab.unittest.TestCase
 import matlab.unittest.constraints.IsEqualTo
+import matlab.unittest.constraints.AbsoluteTolerance
+import matlab.unittest.constraints.IsLessThan
 
 tc = TestCase.forInteractiveUse;
 
@@ -29,8 +31,10 @@ tc.verifyThat(  fory(m, 'replicate'), IsEqualTo( [3 3 3; 3 3 3; 0 0 0] ), 'forwa
 
 % gradient descent to given target
 
-cost = @(u) qnorm2(u - m);
-grad = @(u) 2 * qnorm2(u - m) .* ones(3);
-res = gradient_descent([0 0 0; 0 0 0; 0 0 0], cost, grad);
-tc.verifyThat( res, IsEqualTo(m), 'gradient descent to given target' );
+cost = @(u) sqrt(qnorm2(u - m));
+grad = @(u) (1/ cost(u)) * (u - m);
+[res, meta] = gradient_descent([0 0 0; 0 0 0; 0 0 0], cost, grad, 'iterations', 100, 'error', 3e-6);
+tc.verifyThat( res, IsEqualTo(m, 'Within', AbsoluteTolerance(3e-5)), 'gradient descent to given target' );
+tc.verifyThat( meta.it, IsLessThan(50), '... converged before 50 steps' );
+tc.verifyThat( meta.error, IsLessThan(3e-6), '... has small enough error' );
 
