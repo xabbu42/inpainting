@@ -38,3 +38,13 @@ tc.verifyThat( res, IsEqualTo(m, 'Within', AbsoluteTolerance(3e-5)), 'gradient d
 tc.verifyThat( meta.it, IsLessThan(50), '... converged before 50 steps' );
 tc.verifyThat( meta.error, IsLessThan(3e-6), '... has small enough error' );
 
+% gradient descent to given larger random target
+
+target = 10*rand(10, 20) - 5;
+cost = @(u) sqrt(qnorm2(u - target));
+grad = @(u) (1/ cost(u)) * (u - target);
+[res, meta] = gradient_descent(ones(10, 20), cost, grad, 'iterations', 100, 'error', 3e-6);
+tc.verifyThat( res, IsEqualTo(target, 'Within', AbsoluteTolerance(3e-4)), 'gradient descent to given larger random target' );
+tc.verifyThat( meta.it, IsLessThan(80), '... converged before 80 steps' );
+tc.verifyThat( meta.error, IsLessThan(3e-6), '... has small enough error' );
+
