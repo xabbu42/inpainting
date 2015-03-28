@@ -7,6 +7,10 @@ assignin('base', 'qnorm2', @(m) sum(sum(m .^ 2)));
 assignin('base', 'conv2boundary', @conv2boundary);
 assignin('base', 'forx', @(m, b) conv2boundary(m, [1 -1], b));
 assignin('base', 'fory', @(m, b) conv2boundary(m, [1 -1]', b));
+assignin('base', 'backx', @(m, b) conv2boundary(m, [0 1 -1], b));
+assignin('base', 'backy', @(m, b) conv2boundary(m, [0 1 -1]', b));
+assignin('base', 'centralx', @(m, b) conv2boundary(m, [1 0 -1], b));
+assignin('base', 'centraly', @(m, b) conv2boundary(m, [1 0 -1]', b));
 
 msg = 'imported common functions';
 end
