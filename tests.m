@@ -22,7 +22,7 @@ tc.verifyThat( backy(m, 1), IsEqualTo( [0 1 2; 3 3 3; 3 3 3] ),    'backward dif
 tc.verifyThat(  forx(m, 1), IsEqualTo( [1 1 -2; 1 1 -5; 1 1 -8] ), 'forward difference x, 1 boundary' );
 tc.verifyThat(  fory(m, 1), IsEqualTo( [3 3 3; 3 3 3; -6 -7 -8] ), 'forward difference x, 1 boundary' );
 
-tc.verifyThat( backx(m, 'replicate'), IsEqualTo( [1 1 1; 0 1 1; 0 1 1] ), 'backward difference x, constant boundary' );
+tc.verifyThat( backx(m, 'replicate'), IsEqualTo( [0 1 1; 0 1 1; 0 1 1] ), 'backward difference x, constant boundary' );
 tc.verifyThat( backy(m, 'replicate'), IsEqualTo( [0 0 0; 3 3 3; 3 3 3] ), 'backward difference x, constant boundary' );
 tc.verifyThat(  forx(m, 'replicate'), IsEqualTo( [1 1 0; 1 1 0; 1 1 0] ), 'forward difference x, constant boundary' );
 tc.verifyThat(  fory(m, 'replicate'), IsEqualTo( [3 3 3; 3 3 3; 0 0 0] ), 'forward difference x, constant boundary' );
