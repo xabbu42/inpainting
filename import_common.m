@@ -20,7 +20,8 @@ if isempty(boundary) || (length(boundary) == 1 && boundary == 0)
     r = conv2(a, b, 'same');
 else
     %buggy, add tests and fix
-    a2 = padarray(a, floor(size(b) ./ 2), boundary);
-    r = conv2(a2, b, 'valid');
+    a = padarray(a, ceil( (size(b) - 1) ./ 2), boundary, 'post');
+    a = padarray(a, floor((size(b) - 1) ./ 2), boundary, 'pre');
+    r = conv2(a, b, 'valid');
 end
 end
