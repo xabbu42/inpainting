@@ -23,7 +23,7 @@ u = start;
 while it < opts.iterations && ~converged
     gradu  = grad(u);
     costu  = cost(u);
-    linear = opts.alpha * sum(sum(gradu .* u));
+    linear = opts.alpha * sum(sum(gradu .* u)); %TODO should not assume 2 dimensionsal problem
     
     % backtrack search
     t = 1;
