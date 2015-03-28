@@ -30,7 +30,7 @@ tc.verifyThat(  fory(m, 'replicate'), IsEqualTo( [3 3 3; 3 3 3; 0 0 0] ), 'forwa
 % gradient descent to given target
 
 cost = @(u) qnorm2(u - m);
-grad = @(u) 2 * qnorm2(u - m) .* u;
+grad = @(u) 2 * qnorm2(u - m) .* ones(3);
 res = gradient_descent([0 0 0; 0 0 0; 0 0 0], cost, grad);
 tc.verifyThat( res, IsEqualTo(m), 'gradient descent to given target' );
 
