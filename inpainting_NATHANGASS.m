@@ -1,4 +1,4 @@
-% function [u] = inpainting_NATHANGASS(g,omega,lambda)
+function [u] = inpainting_NATHANGASS(g,omega,lambda)
 % input: g: single gray scaled image
 %        omega: mask
 % lambda: parameter % output: u: inpainted image
