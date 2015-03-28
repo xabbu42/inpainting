@@ -48,3 +48,23 @@ tc.verifyThat( res, IsEqualTo(target, 'Within', AbsoluteTolerance(3e-4)), 'gradi
 tc.verifyThat( meta.it, IsLessThan(80), '... converged before 80 steps' );
 tc.verifyThat( meta.error, IsLessThan(3e-6), '... has small enough error' );
 
+
+% gradient descent to least mean squares linear approx (from exercise 1, week 2)
+
+areas  = [50,52,24,150,80,76,77,120,115,65,61,30];
+prices = [392,245,135,1800,579,655,653,1276,1108,566,477,176];
+N = length(areas);
+
+% normalize
+areasN  = (areas - min(areas)) / (max(areas) - min(areas));
+pricesN = (prices - min(prices)) / (max(prices) - min(prices));
+
+X = [ones(N,1), areasN'];
+Y = pricesN';
+cost = @(u) (1/N) * 0.5 * qnorm2(u * X' - Y');
+grad = @(u) (1/N) * (u * X' - Y') * X;
+
+[res, meta] = gradient_descent([0 0], cost, grad, 'iterations', 100, 'error', 0);
+tc.verifyThat( res, IsEqualTo([-0.074231268042242;0.980023444518299]', 'Within', AbsoluteTolerance(1e-10)), 'gradient descent to least mean squares linear approx (from exercise 1, week 2)' );
+tc.verifyThat( meta.it, IsEqualTo(100), '... made exactly 100 steps' );
+
