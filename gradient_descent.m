@@ -1,4 +1,4 @@
-function [ u ] = gradient_descent(start, cost, grad, varargin)
+function [ u, meta ] = gradient_descent(start, cost, grad, varargin)
 %GRADIENT_DESCENT Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -16,11 +16,11 @@ opts = p.Results;
 
 %% Gradient descent
 it = 1;
-max_gradnorm = opts.error * numel(start);
-converged = false;
+max_error = opts.error * numel(start);
+last_error = max_error + 1;
 u = start;
 
-while it < opts.iterations && ~converged
+while it < opts.iterations && last_error > max_error
     gradu  = grad(u);
     costu  = cost(u);
     linear = opts.alpha * sum(sum(gradu .^ 2)); %TODO should not assume 2 dimensionsal problem
@@ -34,14 +34,11 @@ while it < opts.iterations && ~converged
     % Update
     step = t * gradu;
     u = u - t * gradu;
-   
-    % Stopping criterion
-    if norm(step, 'fro') < max_gradnorm
-        converged = true;
-    end
-    
+	last_error = norm(step, 'fro');
     it = it + 1;
 end
-disp(it);
+
+meta = struct('it', it, 'error', last_error / numel(start), 'cost', cost(u));
+
 end
 
