@@ -20,21 +20,26 @@ it = 1;
 max_error = opts.error * numel(start);
 last_error = max_error + 1;
 u = start;
-
+costu = cost(u);
 while it < opts.iterations && last_error > max_error
     gradu  = grad(u);
-    costu  = cost(u);
     linear = opts.alpha * sum(sum(gradu .^ 2)); %TODO should not assume 2 dimensionsal problem
     
     % backtrack search
     t = 1;
-    while cost(u - t * gradu) > costu - t*linear
+    while 1
+        newu = u - t * gradu;
+        costnewu = cost(newu);
+        if costnewu <= costu - t * linear
+            break;
+        end
         t = opts.beta*t;
     end
     
     % Update
     step = t * gradu;
-    u = u - t * gradu;
+    u = newu;
+    costu = costnewu;
 	last_error = norm(step, 'fro');
     it = it + 1;
 end
