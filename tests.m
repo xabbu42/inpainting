@@ -33,20 +33,32 @@ tc.verifyThat( forwy(m, 'replicate'), IsEqualTo( [3 3 3; 3 3 3; 0 0 0] ), 'forwa
 
 cost = @(u) sqrt(qnorm2(u - m));
 grad = @(u) (1/ cost(u)) * (u - m);
-[res, meta] = gradient_descent([0 0 0; 0 0 0; 0 0 0], cost, grad, 'iterations', 100, 'error', 3e-6);
+doit = @() gradient_descent([0 0 0; 0 0 0; 0 0 0], cost, grad, 'iterations', 100, 'error', 3e-6);
+
+[res, meta] = doit();
 tc.verifyThat( res, IsEqualTo(m, 'Within', AbsoluteTolerance(3e-5)), 'gradient descent to given target' );
 tc.verifyThat( meta.it, IsLessThan(50), '... converged before 50 steps' );
 tc.verifyThat( meta.error, IsLessThan(3e-6), '... has small enough error' );
+
+time = timeit(doit);
+meta
+time
 
 % gradient descent to given larger random target
 
 target = 10*rand(10, 20) - 5;
 cost = @(u) sqrt(qnorm2(u - target));
 grad = @(u) (1/ cost(u)) * (u - target);
-[res, meta] = gradient_descent(ones(10, 20), cost, grad, 'iterations', 100, 'error', 3e-6);
+doit = @() gradient_descent(ones(10, 20), cost, grad, 'iterations', 100, 'error', 3e-6);
+
+[res, meta] = doit();
 tc.verifyThat( res, IsEqualTo(target, 'Within', AbsoluteTolerance(3e-4)), 'gradient descent to given larger random target' );
 tc.verifyThat( meta.it, IsLessThan(80), '... converged before 80 steps' );
 tc.verifyThat( meta.error, IsLessThan(3e-6), '... has small enough error' );
+
+time = timeit(doit);
+meta
+time
 
 
 % gradient descent to least mean squares linear approx (from exercise 1, week 2)
@@ -63,8 +75,12 @@ X = [ones(N,1), areasN'];
 Y = pricesN';
 cost = @(u) (1/N) * 0.5 * qnorm2(u * X' - Y');
 grad = @(u) (1/N) * (u * X' - Y') * X;
+doit = @() gradient_descent([0 0], cost, grad, 'iterations', 100, 'error', 0);
 
-[res, meta] = gradient_descent([0 0], cost, grad, 'iterations', 100, 'error', 0);
+[res, meta] = doit();
 tc.verifyThat( res, IsEqualTo([-0.074231268042242;0.980023444518299]', 'Within', AbsoluteTolerance(1e-10)), 'gradient descent to least mean squares linear approx (from exercise 1, week 2)' );
 tc.verifyThat( meta.it, IsEqualTo(100), '... made exactly 100 steps' );
+meta
+time = timeit(doit);
+time
 
