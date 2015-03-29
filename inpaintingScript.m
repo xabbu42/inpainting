@@ -16,7 +16,7 @@ g = im.*omega;
 
 lambda = 1000;
 
-uG = inpainting_Dummy(g,omega,lambda);
+uG = inpainting_NATHANGASS(g,omega,lambda);
 
 figure;
 disp = [uG, 0*im; ...
