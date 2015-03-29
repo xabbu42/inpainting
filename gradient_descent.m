@@ -40,7 +40,7 @@ while it < opts.iterations && last_error > max_error
     step = t * gradu;
     u = newu;
     costu = costnewu;
-	last_error = norm(step, 'fro');
+	last_error = norm(gradu, 'fro');
     it = it + 1;
 end
 
