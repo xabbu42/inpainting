@@ -5,8 +5,8 @@ assignin('caller', 'msum',  @(m) sum(m(:)));
 assignin('caller', 'qnorm2', @(m) sum(sum(m .^ 2)));
 
 assignin('caller', 'conv2boundary', @conv2boundary);
-assignin('caller', 'forx', @(m, b) conv2boundary(m, [1 -1], b));
-assignin('caller', 'fory', @(m, b) conv2boundary(m, [1 -1]', b));
+assignin('caller', 'forwx', @(m, b) conv2boundary(m, [1 -1], b));
+assignin('caller', 'forwy', @(m, b) conv2boundary(m, [1 -1]', b));
 assignin('caller', 'backx', @(m, b) conv2boundary(m, [0 1 -1], b));
 assignin('caller', 'backy', @(m, b) conv2boundary(m, [0 1 -1]', b));
 assignin('caller', 'centralx', @(m, b) conv2boundary(m, [1 0 -1], b));
