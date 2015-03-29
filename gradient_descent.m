@@ -15,6 +15,7 @@ parse(p, start, cost, grad, varargin{:})
 opts = p.Results;
 
 %% Gradient descent
+tic;
 it = 1;
 max_error = opts.error * numel(start);
 last_error = max_error + 1;
@@ -38,7 +39,7 @@ while it < opts.iterations && last_error > max_error
     it = it + 1;
 end
 
-meta = struct('it', it, 'error', last_error / numel(start), 'cost', cost(u));
+meta = struct('it', it, 'error', last_error / numel(start), 'cost', cost(u), 'time', toc);
 
 end
 
