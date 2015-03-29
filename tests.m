@@ -44,7 +44,7 @@ time = timeit(doit);
 meta
 time
 
-% gradient descent to given larger random target
+% gradient descent to given random target
 
 target = 10*rand(10, 20) - 5;
 cost = @(u) sqrt(qnorm2(u - target));
@@ -52,7 +52,7 @@ grad = @(u) (1/ cost(u)) * (u - target);
 doit = @() gradient_descent(ones(10, 20), cost, grad, 'iterations', 100, 'error', 3e-6);
 
 [res, meta] = doit();
-tc.verifyThat( res, IsEqualTo(target, 'Within', AbsoluteTolerance(3e-4)), 'gradient descent to given larger random target' );
+tc.verifyThat( res, IsEqualTo(target, 'Within', AbsoluteTolerance(3e-4)), 'gradient descent to given random target' );
 tc.verifyThat( meta.it, IsLessThan(80), '... converged before 80 steps' );
 tc.verifyThat( meta.error, IsLessThan(3e-6), '... has small enough error' );
 
@@ -60,6 +60,17 @@ time = timeit(doit);
 meta
 time
 
+% gradient descent to given big random target
+
+target = 10*rand(200, 400) - 5;
+cost = @(u) sqrt(qnorm2(u - target));
+grad = @(u) (1/ cost(u)) * (u - target);
+doit = @() gradient_descent(ones(200, 400), cost, grad, 'iterations', 1000, 'error', 3e-10);
+
+[res, meta] = doit();
+tc.verifyThat( res, IsEqualTo(target, 'Within', AbsoluteTolerance(3e-4)), 'gradient descent to given big random target' );
+tc.verifyThat( meta.error, IsLessThan(3e-6), '... has small enough error' );
+meta
 
 % gradient descent to least mean squares linear approx (from exercise 1, week 2)
 
