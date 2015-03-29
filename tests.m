@@ -36,12 +36,12 @@ grad = @(u) (1/ cost(u)) * (u - m);
 doit = @() gradient_descent([0 0 0; 0 0 0; 0 0 0], cost, grad, 'iterations', 100, 'error', 3e-6);
 
 [res, meta] = doit();
+meta
 tc.verifyThat( res, IsEqualTo(m, 'Within', AbsoluteTolerance(3e-5)), 'gradient descent to given target' );
 tc.verifyThat( meta.it, IsLessThan(50), '... converged before 50 steps' );
 tc.verifyThat( meta.error, IsLessThan(3e-6), '... has small enough error' );
 
 time = timeit(doit);
-meta
 time
 
 % gradient descent to given random target
@@ -52,12 +52,12 @@ grad = @(u) (1/ cost(u)) * (u - target);
 doit = @() gradient_descent(ones(10, 20), cost, grad, 'iterations', 100, 'error', 3e-6);
 
 [res, meta] = doit();
+meta
 tc.verifyThat( res, IsEqualTo(target, 'Within', AbsoluteTolerance(3e-4)), 'gradient descent to given random target' );
 tc.verifyThat( meta.it, IsLessThan(80), '... converged before 80 steps' );
 tc.verifyThat( meta.error, IsLessThan(3e-6), '... has small enough error' );
 
 time = timeit(doit);
-meta
 time
 
 % gradient descent to given big random target
@@ -68,9 +68,9 @@ grad = @(u) (1/ cost(u)) * (u - target);
 doit = @() gradient_descent(ones(200, 400), cost, grad, 'iterations', 1000, 'error', 3e-10);
 
 [res, meta] = doit();
+meta
 tc.verifyThat( res, IsEqualTo(target, 'Within', AbsoluteTolerance(3e-4)), 'gradient descent to given big random target' );
 tc.verifyThat( meta.error, IsLessThan(3e-6), '... has small enough error' );
-meta
 
 % gradient descent to least mean squares linear approx (from exercise 1, week 2)
 
@@ -89,9 +89,9 @@ grad = @(u) (1/N) * (u * X' - Y') * X;
 doit = @() gradient_descent([0 0], cost, grad, 'iterations', 100, 'error', 0);
 
 [res, meta] = doit();
+meta
 tc.verifyThat( res, IsEqualTo([-0.074231268042242;0.980023444518299]', 'Within', AbsoluteTolerance(1e-10)), 'gradient descent to least mean squares linear approx (from exercise 1, week 2)' );
 tc.verifyThat( meta.it, IsEqualTo(100), '... made exactly 100 steps' );
-meta
 time = timeit(doit);
 time
 
