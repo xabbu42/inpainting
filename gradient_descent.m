@@ -7,7 +7,7 @@ p = inputParser;
 p.addRequired('start');
 p.addRequired('cost');
 p.addRequired('grad');
-p.addOptional('iterations', 5000);
+p.addOptional('iterations', 1000);
 p.addOptional('alpha',      0.05);
 p.addOptional('beta',       0.05);
 p.addOptional('error',      3e-6);
