@@ -28,7 +28,8 @@ while it < opts.iterations && last_error > max_error
     % backtrack search
     t = 1;
     while 1
-        newu = u - t * gradu;
+        step = t * gradu;
+        newu = u - step;
         costnewu = cost(newu);
         if ~isfinite(costnewu)
             error 'inf or nan cost';
@@ -40,7 +41,6 @@ while it < opts.iterations && last_error > max_error
     end
     
     % Update
-    step = t * gradu;
     u = newu;
     costu = costnewu;
 	last_error = norm(gradu, 'fro');
