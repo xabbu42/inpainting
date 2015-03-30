@@ -30,6 +30,9 @@ while it < opts.iterations && last_error > max_error
     while 1
         newu = u - t * gradu;
         costnewu = cost(newu);
+        if ~isfinite(costnewu)
+            error 'inf or nan cost';
+        end
         if costnewu <= costu - t * linear
             break;
         end
