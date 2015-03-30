@@ -6,7 +6,9 @@ import_common();
 cost = @(u) (lambda/2) * sum2(omega .* (u - g) .^ 2) + forw_total_variation(u);
 grad = @(u) lambda * (omega .* (u - g)) + forw_total_variation_grad(u);
 
-u = gradient_descent(g, cost, grad, 'iterations', 100);
+[u, meta] = gradient_descent(g, cost, grad, 'iterations', 1000);
+
+meta
 
 return;
 
