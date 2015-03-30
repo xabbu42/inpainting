@@ -95,3 +95,11 @@ tc.verifyThat( meta.it, IsEqualTo(100), '... made exactly 100 steps' );
 time = timeit(doit);
 time
 
+% gradient descent to flat 0
+cost = forw_total_variation;
+grad = forw_total_variation_grad;
+doit = @() gradient_descent(m, cost, grad, 'iterations', 10000, 'error', 1e-8, 'alpha', 0.01, 'beta', 0.01);
+[res, meta] = doit();
+meta
+tc.verifyThat( res, IsEqualTo(zeros(3), 'Within', AbsoluteTolerance(1e-6)), 'gradient descent to flat zero with total variation');
+
