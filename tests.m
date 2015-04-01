@@ -98,8 +98,30 @@ time
 % gradient descent to flat 0
 cost = forw_total_variation;
 grad = forw_total_variation_grad;
-doit = @() gradient_descent(m, cost, grad, 'iterations', 10000, 'error', 1e-8, 'alpha', 0.01, 'beta', 0.01);
+doit = @() gradient_descent(m, cost, grad, 'iterations', 500, 'error', 1e-8);
 [res, meta] = doit();
 meta
 tc.verifyThat( res, IsEqualTo(zeros(3), 'Within', AbsoluteTolerance(1e-6)), 'gradient descent to flat zero with total variation');
+tc.verifyThat( meta.it, IsLessThan(400), '... converged before 400 steps' );
+tc.verifyThat( meta.error, IsLessThan(1e-8), '... has small enough error' );
 
+% gradient descent to flat with replicated border
+cost = @(u) forw_total_variation(u, 'replicate');
+grad = @(u) forw_total_variation_grad(u, 'replicate');
+doit = @() gradient_descent(m, cost, grad, 'iterations', 500, 'error', 1e-8);
+[res, meta] = doit();
+meta
+tc.verifyThat( res, IsEqualTo(res(1,1) * ones(3), 'Within', AbsoluteTolerance(1e-6)), 'gradient descent to flat with replicated border');
+tc.verifyThat( meta.it, IsLessThan(400), '... converged before 400 steps' );
+tc.verifyThat( meta.error, IsLessThan(1e-8), '... has small enough error' );
+
+% gradient descent to flat 0 larger matrix
+start = 10*rand(20, 40) - 5;
+cost = forw_total_variation;
+grad = forw_total_variation_grad;
+doit = @() gradient_descent(start, cost, grad, 'iterations', 10000, 'error', 1e-8, 'alpha', 0.3, 'beta', 0.4);
+[res, meta] = doit();
+meta
+tc.verifyThat( res, IsEqualTo(zeros(20, 40), 'Within', AbsoluteTolerance(1e-6)), 'gradient descent to flat zero with total variation');
+tc.verifyThat( meta.it, IsLessThan(8000), '... converged before 8000 steps' );
+tc.verifyThat( meta.error, IsLessThan(1e-8), '... has small enough error' );

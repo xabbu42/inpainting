@@ -37,7 +37,7 @@ function [r] = forw_variation(u, b)
 	if (nargin < 2)
 		b = 0;
 	end
-	r = forwx(u, b) .^ 2 + forwy(u, b) .^ 2;
+	r = sqrt(forwx(u, b) .^ 2 + forwy(u, b) .^ 2 + 1e-10);
 end
 
 function [r] = forw_total_variation(u, b)
@@ -51,7 +51,8 @@ function [r] = forw_total_variation_grad(u, b)
 	if (nargin < 2)
 		b = 0;
 	end
-	r = 2 * (conv2(forwx(u, b), [0 -1 -1], 'same') + conv2(forwy(u, b), [0 -1 -1]', 'same'));
+	inverse_var = 1 ./ forw_total_variation(u, b);
+	r = conv2(inverse_var .* forwx(u, b), [0 -1 +1], 'same') + conv2(inverse_var .* forwy(u, b), [0 -1 +1]', 'same');
 end
 
 function [r] = conv2boundary(a, b, boundary)
