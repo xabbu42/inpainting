@@ -17,7 +17,7 @@ g = im.*omega;
 
 lambda = 0.1;
 
-uG = inpainting_NATHANGASS(g,omega,lambda);
+uG = inpainting_NATHANGASS(g,omega,lambda, 'plot', 1);
 
 figure;
 disp = [uG, 0*im; ...

@@ -11,17 +11,31 @@ p.addOptional('iterations', 1000);
 p.addOptional('alpha',      0.05);
 p.addOptional('beta',       0.05);
 p.addOptional('error',      3e-6);
+p.addOptional('plot',       0);
 parse(p, start, cost, grad, varargin{:})
 opts = p.Results;
 
 %% Gradient descent
 tic;
-it = 1;
+
 max_error = opts.error * numel(start);
 last_error = max_error + 1;
+
+it = 1;
 u = start;
 costu = cost(u);
+
+if opts.plot
+	p = plot([0], [costu]);
+	title('Cost');
+	xlim([0 opts.iterations]);
+	ylim([0 costu * 1.1]);
+	set(gca,'FontSize', 14);
+	set(findall(gcf,'type','text'), 'FontSize', 20,'fontWeight','bold');
+end
+
 while it < opts.iterations && last_error > max_error
+	ydata(it) = costu;
     gradu  = grad(u);
     linear = opts.alpha * sum(sum(gradu .^ 2)); %TODO should not assume 2 dimensionsal problem
     
@@ -43,6 +57,11 @@ while it < opts.iterations && last_error > max_error
     % Update
     u = newu;
     costu = costnewu;
+
+	if opts.plot
+		set(p, 'XData', 0:it, 'YData', [get(p, 'YData'), costu]);
+		drawnow;
+	end
 	last_error = norm(gradu, 'fro');
     it = it + 1;
 end

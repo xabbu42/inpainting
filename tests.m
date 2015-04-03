@@ -119,7 +119,7 @@ tc.verifyThat( meta.error, IsLessThan(1e-8), '... has small enough error' );
 start = 10*rand(20, 40) - 5;
 cost = forw_total_variation;
 grad = forw_total_variation_grad;
-doit = @() gradient_descent(start, cost, grad, 'iterations', 10000, 'error', 1e-8, 'alpha', 0.3, 'beta', 0.4);
+doit = @() gradient_descent(start, cost, grad, 'iterations', 10000, 'error', 1e-8, 'alpha', 0.3, 'beta', 0.4, 'plot', 1);
 [res, meta] = doit();
 meta
 tc.verifyThat( res, IsEqualTo(zeros(20, 40), 'Within', AbsoluteTolerance(1e-6)), 'gradient descent to flat zero with total variation');
