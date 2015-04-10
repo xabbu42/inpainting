@@ -34,7 +34,6 @@ if opts.plot
 end
 
 while it < opts.iterations && last_error > max_error
-	ydata(it) = costu;
     gradu  = grad(u);
     linear = opts.alpha * sum(sum(gradu .^ 2)); %TODO should not assume 2 dimensionsal problem
 
