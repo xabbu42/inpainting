@@ -29,7 +29,6 @@ if opts.plot
 	p = plot([0], [costu]);
 	title('Cost');
 	xlim([0 opts.iterations]);
-	ylim([0 costu * 1.1]);
 	set(gca,'FontSize', 14);
 	set(findall(gcf,'type','text'), 'FontSize', 20,'fontWeight','bold');
 end
@@ -38,7 +37,7 @@ while it < opts.iterations && last_error > max_error
 	ydata(it) = costu;
     gradu  = grad(u);
     linear = opts.alpha * sum(sum(gradu .^ 2)); %TODO should not assume 2 dimensionsal problem
-    
+
     % backtrack search
     t = 1;
     while 1
@@ -53,7 +52,7 @@ while it < opts.iterations && last_error > max_error
         end
         t = opts.beta*t;
     end
-    
+
     % Update
     u = newu;
     costu = costnewu;
@@ -61,6 +60,9 @@ while it < opts.iterations && last_error > max_error
 	if opts.plot
 		set(p, 'XData', 0:it, 'YData', [get(p, 'YData'), costu]);
 		drawnow;
+		if it == 10
+			ylim([0, costu]);
+		end
 	end
 	last_error = norm(gradu, 'fro');
     it = it + 1;
