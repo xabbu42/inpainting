@@ -51,7 +51,7 @@ function [r] = forw_total_variation_grad(u, b)
 	if (nargin < 2)
 		b = 0;
 	end
-	inverse_var = 1 ./ forw_total_variation(u, b);
+	inverse_var = 1 ./ forw_variation(u, b);
 	r = conv2(inverse_var .* forwx(u, b), [0 -1 +1], 'same') + conv2(inverse_var .* forwy(u, b), [0 -1 +1]', 'same');
 end
 
