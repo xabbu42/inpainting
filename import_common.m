@@ -7,17 +7,58 @@ assignin('caller', 'qnorm2', @(m) sum(sum(m .^ 2)));
 assignin('caller', 'conv2boundary', @conv2boundary);
 assignin('caller', 'forwx', @forwx);
 assignin('caller', 'forwy', @forwy);
+assignin('caller', 'centralx', @centralx);
+assignin('caller', 'centraly', @centraly);
 assignin('caller', 'backx', @(m, b) conv2boundary(m, [0 1 -1], b));
 assignin('caller', 'backy', @(m, b) conv2boundary(m, [0 1 -1]', b));
-assignin('caller', 'centralx', @(m, b) conv2boundary(m, [1 0 -1], b));
-assignin('caller', 'centraly', @(m, b) conv2boundary(m, [1 0 -1]', b));
 
 assignin('caller', 'forw_variation', @forw_variation);
 assignin('caller', 'forw_total_variation', @forw_total_variation);
 assignin('caller', 'forw_total_variation_grad', @forw_total_variation_grad);
 
+assignin('caller', 'central_variation', @central_variation);
+assignin('caller', 'central_total_variation', @central_total_variation);
+assignin('caller', 'central_total_variation_grad', @central_total_variation_grad);
+
 msg = 'imported common functions';
 end
+
+function [r] = centralx(m, b)
+	if (nargin < 2)
+		b = 0;
+	end
+	r = 0.5 * conv2boundary(m, [1 0 -1], b);
+end
+
+function [r] = centraly(m, b)
+	if (nargin < 2)
+		b = 0;
+	end
+	r = 0.5 * conv2boundary(m, [1 0 -1]', b);
+end
+
+function [r] = central_variation(u, b)
+	if (nargin < 2)
+		b = 0;
+	end
+	r = sqrt(centralx(u, b) .^ 2 + centraly(u, b) .^ 2 + 1e-5);
+end
+
+function [r] = central_total_variation(u, b)
+	if (nargin < 2)
+		b = 0;
+	end
+	r = sum(sum(central_variation(u, b)));
+end
+
+function [r] = central_total_variation_grad(u, b)
+	if (nargin < 2)
+		b = 0;
+	end
+	inverse_var = 1 ./ central_variation(u, b);
+	r = conv2(inverse_var .* centralx(u, b), [-1 0 +1], 'same') + conv2(inverse_var .* centraly(u, b), [-1 0 +1]', 'same');
+end
+
 
 function [r] = forwx(m, b)
 	if (nargin < 2)
