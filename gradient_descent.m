@@ -26,7 +26,7 @@ u = start;
 costu = cost(u);
 
 if opts.plot
-	p = plot([0], [costu]);
+	p = plot([costu]);
 	title('Cost');
 	xlim([0 opts.iterations]);
 	set(gca,'FontSize', 14);
@@ -59,11 +59,8 @@ while it < opts.iterations && last_error > max_error
     costu = costnewu;
 
 	if opts.plot
-		set(p, 'XData', 0:it, 'YData', [get(p, 'YData'), costu]);
+		set(p, 'YData', [get(p, 'YData'), costu]);
 		drawnow;
-		if it == 10
-			ylim([0, costu]);
-		end
 	end
     last_error = sqrt(gradu_norm_squared);
     it = it + 1;
