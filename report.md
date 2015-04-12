@@ -7,24 +7,51 @@ header-includes:
     - \DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
     - \DeclareMathOperator*{\argmin}{arg\,min}
 	- \everymath{\displaystyle}
-date: 10. April 2015
 ...
+
 
 Problem
 -------
 
-Given a image $g$ with undefined or invalid pieces and a mask $\Omega$ identifing the valid parts of the image,
-calculate a image with the missing parts filled in, depending on the surroundings in the image. 
+With inpainting algorithms our goal is to recover missing or invalid
+parts of an image.  The inputs for inpainting are an image $g$ together
+with a mask $\Omega$ identifing the valid parts of $g$.  The result is
+a new image $\tilde{u}$ which should be close to the original image
+$g$ where it is valid, and match the surroundings as closely as
+possible in the invalid parts. In this particular inpainting
+algorithm, this two factors are captured by the following minimization
+problem:
+
+\begin{equation*}
+\tilde{u} = \argmin_u{\frac{\lambda}{2} \norm{u - g}^2_\Omega + \norm{\nabla u}}
+\end{equation*}
+
 
 Motivations
 -----------
 
-With this technique, one can restore damaged films and photographs.
+There are many possilbe sources for incomplete images:
+
+* Damaged photographs and movie films.
+
+* Partly overwritten images where the original is lost. For example
+  the background image of an advertisement.
+
+* Images with some objects removed by choice.
+
+* Lost data during transmission without the time for retransmission
+  (this requires fast algorithms for inpainting).
+
+In all this cases, inpainting algorithms can be used to fill in the
+holes of the incomplete image according to the surroundings to get a
+complete image back.
+
 
 Derivation
 ----------
 
-The cost function used for inpainting is:
+As seen in the problem description, we want to minimize the following
+cost function:
 
 \begin{equation*}
 E(u) = \frac{\lambda}{2} \norm{u - g}^2_\Omega + \norm{\nabla u}_2
