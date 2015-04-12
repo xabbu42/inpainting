@@ -51,13 +51,14 @@ Derivation
 ----------
 
 As seen in the problem description, we want to minimize the following
-cost function:
+objective function:
 
 \begin{equation*}
 E(u) = \frac{\lambda}{2} \norm{u - g}^2_\Omega + \norm{\nabla u}_2
 \end{equation*}
 
-We use the following descretized approximations:
+We use the following finite difference approximation of the objective
+function $E$:
 
 \begin{equation*}
 \begin{split}
