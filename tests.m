@@ -36,6 +36,7 @@ tc.verifyThat(tau(4,2), IsEqualTo(sqrt((     0 - n(4,2))^2 + (n(4,3) - n(4,2))^2
 
 grad = forw_total_variation_grad(n);
 tc.verifyThat(grad(2,2), IsEqualTo((1/tau(2,2)) * (2 * n(2,2) - n(3,2) - n(2,3)) + (1/tau(1,2)) * (n(2,2) - n(1,2)) + (1/tau(2,1)) * (n(2,2) - n(2,1)), 'Within', AbsoluteTolerance(1e-8)), 'forward total variation gradient inside');
+tc.verifyThat(grad(3,2), IsEqualTo((1/tau(3,2)) * (2 * n(3,2) - n(4,2) - n(3,3)) + (1/tau(2,2)) * (n(3,2) - n(2,2)) + (1/tau(3,1)) * (n(3,2) - n(3,1)), 'Within', AbsoluteTolerance(1e-8)), 'forward total variation gradient inside');
 
 % gradient descent to given target
 
@@ -123,13 +124,13 @@ tc.verifyThat( res, IsEqualTo(res(1,1) * ones(3), 'Within', AbsoluteTolerance(1e
 tc.verifyThat( meta.it, IsLessThan(400), '... converged before 400 steps' );
 tc.verifyThat( meta.error, IsLessThan(1e-6), '... has small enough error' );
 
-% gradient descent to flat 0 larger matrix
-start = 10*rand(20, 40) - 5;
-cost = forw_total_variation;
-grad = forw_total_variation_grad;
-doit = @() gradient_descent(start, cost, grad, 'iterations', 10000, 'error', 1e-8, 'alpha', 0.3, 'beta', 0.4, 'plot', 1);
+% gradient descent to flat larger matrix
+start = 10 * rand(20, 40);
+cost = @(u) forw_total_variation(u, 'replicate');
+grad = @(u) forw_total_variation_grad(u, 'replicate');
+doit = @() gradient_descent(start, cost, grad, 'iterations', 2000, 'error', 1e-5, 'plot', 1, 'alpha', 1e-4, 'beta', 0.5);
 [res, meta] = doit();
 meta
-tc.verifyThat( res, IsEqualTo(zeros(20, 40), 'Within', AbsoluteTolerance(1e-6)), 'gradient descent to flat zero with total variation');
-tc.verifyThat( meta.it, IsLessThan(8000), '... converged before 8000 steps' );
-tc.verifyThat( meta.error, IsLessThan(1e-8), '... has small enough error' );
+tc.verifyThat( res, IsEqualTo(res(1,1) * ones(20, 40), 'Within', AbsoluteTolerance(1e-2)), 'gradient descent to flat with total variation');
+tc.verifyThat( meta.it, IsLessThan(1500), '... converged before 1500 steps' );
+tc.verifyThat( meta.error, IsLessThan(1e-5), '... has small enough error' );
