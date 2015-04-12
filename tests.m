@@ -31,8 +31,8 @@ tc.verifyThat( forwy(m, 'replicate'), IsEqualTo( [3 3 3; 3 3 3; 0 0 0] ), 'forwa
 
 n = 10 * rand(4) - 5;
 tau = forw_variation(n);
-tc.verifyThat(tau(2,2), IsEqualTo(sqrt((n(3,2) - n(2,2))^2 + (n(2,3) - n(2,2))^2), 'Within', AbsoluteTolerance(1e-8)), 'forward variatien inside');
-tc.verifyThat(tau(4,2), IsEqualTo(sqrt((     0 - n(4,2))^2 + (n(4,3) - n(4,2))^2), 'Within', AbsoluteTolerance(1e-8)), 'forward variation border');
+tc.verifyThat(tau(2,2), IsEqualTo(sqrt((n(3,2) - n(2,2))^2 + (n(2,3) - n(2,2))^2), 'Within', AbsoluteTolerance(1e-4)), 'forward variatien inside');
+tc.verifyThat(tau(4,2), IsEqualTo(sqrt((     0 - n(4,2))^2 + (n(4,3) - n(4,2))^2), 'Within', AbsoluteTolerance(1e-4)), 'forward variation border');
 
 grad = forw_total_variation_grad(n);
 tc.verifyThat(grad(2,2), IsEqualTo((1/tau(2,2)) * (2 * n(2,2) - n(3,2) - n(2,3)) + (1/tau(1,2)) * (n(2,2) - n(1,2)) + (1/tau(2,1)) * (n(2,2) - n(2,1)), 'Within', AbsoluteTolerance(1e-8)), 'forward total variation gradient inside');
@@ -128,7 +128,7 @@ tc.verifyThat( meta.error, IsLessThan(1e-6), '... has small enough error' );
 start = 10 * rand(20, 40);
 cost = @(u) forw_total_variation(u, 'replicate');
 grad = @(u) forw_total_variation_grad(u, 'replicate');
-doit = @() gradient_descent(start, cost, grad, 'iterations', 2000, 'error', 1e-5, 'plot', 1, 'alpha', 1e-4, 'beta', 0.5);
+doit = @() gradient_descent(start, cost, grad, 'iterations', 2000, 'error', 5e-4, 'plot', 1);
 [res, meta] = doit();
 meta
 tc.verifyThat( res, IsEqualTo(res(1,1) * ones(20, 40), 'Within', AbsoluteTolerance(1e-2)), 'gradient descent to flat with total variation');
