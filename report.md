@@ -1,6 +1,8 @@
 ---
 title:  Assignment 1
-author: Nathan Gass
+author:
+    - Nathan Gass
+    - 02-124-337
 header-includes:
     - \usepackage{caption,subcaption}
     - \usepackage{mathtools}
@@ -9,6 +11,8 @@ header-includes:
 	- \everymath{\displaystyle}
 ...
 
+Inpainting
+==========
 
 Problem
 -------
