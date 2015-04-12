@@ -34,10 +34,12 @@ if opts.plot
 end
 
 while it < opts.iterations && last_error > max_error
-    gradu  = grad(u);
-    linear = opts.alpha * sum(sum(gradu .^ 2)); %TODO should not assume 2 dimensionsal problem
 
-    % backtrack search
+    gradu  = grad(u);
+	gradu_norm_squared = sum(sum(gradu .^ 2));  %TODO should not assume 2 dimensionsal problem
+    linear = opts.alpha * gradu_norm_squared;
+
+    % backtrack line search
     t = 1;
     while 1
         step = t * gradu;
@@ -63,7 +65,7 @@ while it < opts.iterations && last_error > max_error
 			ylim([0, costu]);
 		end
 	end
-	last_error = norm(gradu, 'fro');
+    last_error = sqrt(gradu_norm_squared);
     it = it + 1;
 end
 
