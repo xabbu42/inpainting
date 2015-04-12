@@ -13,8 +13,8 @@ header-includes:
 Problem
 -------
 
-With inpainting algorithms our goal is to recover missing or invalid
-parts of an image.  The inputs for inpainting are an image $g$ together
+The goal of inpainting algorithms is to recover missing or invalid
+parts of an image. The inputs for inpainting are an image $g$ together
 with a mask $\Omega$ identifing the valid parts of $g$.  The result is
 a new image $\tilde{u}$ which should be close to the original image
 $g$ where it is valid, and match the surroundings as closely as
@@ -87,6 +87,10 @@ The gradient of our cost function $E(u)$ is:
   & = \sum_{x,y}{\frac{\delta \tau[x,y]}{\delta u[i,j]}} \\
   & = \frac{\delta \tau[i,j]}{\delta u[i,j]} + \frac{\delta \tau[i-1,j]}{\delta u[i,j]} + \frac{\delta \tau[i,j-1]}{\delta u[i,j]} \\
 \\
+\end{split}
+\end{equation*}
+\begin{equation*}
+\begin{split}
 \frac{\delta \tau[i,j]}{\delta u[i,j]}
   & = \frac{1}{2} \frac{1}{\tau[i,j]} \bigl(2 (u[i+1,j] - u[i,j]) (-1) + 2 (u[i,j+1] - u[i,j]) (-1)\bigr) \\
   & = \frac{1}{\tau[i,j]} (2u[i,j] - u[i+1,j] - u[i,j+1]) \\
@@ -103,8 +107,6 @@ The gradient of our cost function $E(u)$ is:
   & = \frac{1}{\tau[i,j-1]} forw_y[i,j-1]
 \end{split}
 \end{equation*}
-
-\newpage
 
 
 Test Image
@@ -159,6 +161,12 @@ Progress of Gradient Descent
 Lambda parameter
 ----------------
 
+The $\lambda$ parameter weights the two parts of the cost
+function. Therefore we should expect to see results closer to the
+original image for large values of $\lambda$, and results with a
+stronger denoising effect for small values of $\lambda$. The following
+pictures with 4 different values for $\lambda$ show this effect:
+
 \begin{figure}[h!]
 \setcounter{subfigure}{0}
 \begin{subfigure}{0.5\textwidth}
@@ -186,14 +194,23 @@ Lambda parameter
 \newpage
 
 
-Difference to original image
-----------------------------
+Difference to the original image
+--------------------------------
+
+As our input image was syntethicaly generated and we do have the
+complete original image, we can compare the result of this algorithm
+to the original image. The following figure shows the sum of squared
+distances (SSD) between the result and the original image, depending
+on the $\lambda$ parameter:
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=\textwidth]{plot.png}
+\includegraphics[width=0.7\textwidth]{plot.png}
 \label{plot}
 \end{figure}
+
+The closest result was achieved with a $\lambda$ of 103 and had a SSD
+to the original of 140:
 
 \begin{figure}[h!]
 \centering
