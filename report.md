@@ -46,6 +46,7 @@ In all this cases, inpainting algorithms can be used to fill in the
 holes of the incomplete image according to the surroundings to get a
 complete image back.
 
+\newpage
 
 Derivation
 ----------
