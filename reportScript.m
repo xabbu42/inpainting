@@ -64,8 +64,7 @@ imwrite(best, 'best.png');
 plot(lambda, ssd);
 xlabel('lambda');
 ylabel('SSD');
-set(gca,'FontSize', 14);
-set(findall(gcf,'type','text'), 'FontSize', 20,'fontWeight','bold');
+set(gca,'FontSize', 10);
 print('plot', '-dpng');
 
 
