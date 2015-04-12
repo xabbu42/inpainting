@@ -37,18 +37,20 @@ imwrite(high, 'high_lambda.png');
 
 % plot lambda vs ssd to original
 
-lambda = linspace(1, 1000, 20);
+lambda = linspace(1, 600, 50);
 ssd = zeros(10, 1);
-i = 1;
-minssd = qnorm2(final - im);
+besti = i = 1;
 for i = 1:length(lambda)
 	res = inpainting_NATHANGASS(g, omega, lambda(i), args{:});
 	ssd(i) = qnorm2(res - im);
-	if (ssd(i) < minssd)
+	if (ssd(i) < ssd(besti))
 		best = res;
-		minssd = ssd(i);
+		besti = i;
 	end
 end
+
+lambda(besti)
+ssd(besti)
 
 imwrite(best, 'best.png');
 
