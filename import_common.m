@@ -37,7 +37,7 @@ function [r] = forw_variation(u, b)
 	if (nargin < 2)
 		b = 0;
 	end
-	r = sqrt(forwx(u, b) .^ 2 + forwy(u, b) .^ 2 + 1e-10);
+	r = sqrt(forwx(u, b) .^ 2 + forwy(u, b) .^ 2 + 1e-5);
 end
 
 function [r] = forw_total_variation(u, b)

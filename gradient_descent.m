@@ -8,8 +8,8 @@ p.addRequired('start');
 p.addRequired('cost');
 p.addRequired('grad');
 p.addOptional('iterations', 1000);
-p.addOptional('alpha',      0.05);
-p.addOptional('beta',       0.05);
+p.addOptional('alpha',      1e-2);
+p.addOptional('beta',       0.5);
 p.addOptional('error',      3e-6);
 p.addOptional('plot',       0);
 parse(p, start, cost, grad, varargin{:})

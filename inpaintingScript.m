@@ -3,7 +3,7 @@ clear all;
 close all;
 clc;
 
-scale = 0.5;
+scale = 1;
 im = imresize(im2single(rgb2gray(imread('grumpycat.jpeg'))), scale);
 
 % mask
@@ -15,11 +15,12 @@ omega(unique(round((31:65) * scale)), unique(round((166:194) * scale))) = 0;
 g = im.*omega;
 
 
-lambda = 0.1;
+lambda = 200;
 
-uG = inpainting_NATHANGASS(g,omega,lambda, 'plot', 1);
+uG = inpainting_NATHANGASS(g,omega,lambda, 'alpha', 1e-2, 'beta', 0.5, 'plot', 1, 'iterations', 2000);
+di = abs(g - uG);
+di = di / max(di(:));
 
 figure;
-disp = [uG, 0*im; ...
-        im, g];
+disp = [uG, di; im, g];
 imshow(disp);
