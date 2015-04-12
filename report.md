@@ -30,7 +30,7 @@ problem:
 Motivations
 -----------
 
-There are many possilbe sources for incomplete images:
+There are many possible sources for incomplete images:
 
 * Damaged photographs and movie films.
 
@@ -141,8 +141,13 @@ Progress of Gradient Descent
 \label{input}
 \end{subfigure}
 \begin{subfigure}{0.5\textwidth}
+\includegraphics[width=\textwidth]{late.png}
+\caption{After 2500 iterations}
+\label{input}
+\end{subfigure}
+\begin{subfigure}{0.5\textwidth}
 \includegraphics[width=\textwidth]{final.png}
-\caption{Final Image after 2500 iterations}
+\caption{After 5000 iterations}
 \label{input}
 \end{subfigure}
 \end{figure}
@@ -155,8 +160,13 @@ Lambda parameter
 
 \begin{figure}[h!]
 \begin{subfigure}{0.5\textwidth}
+\includegraphics[width=\textwidth]{vlow_lambda.png}
+\caption{$\lambda = 10$}
+\label{original}
+\end{subfigure}
+\begin{subfigure}{0.5\textwidth}
 \includegraphics[width=\textwidth]{low_lambda.png}
-\caption{$\lambda = 1$}
+\caption{$\lambda = 50$}
 \label{original}
 \end{subfigure}
 \begin{subfigure}{0.5\textwidth}
@@ -178,11 +188,13 @@ Difference to original image
 ----------------------------
 
 \begin{figure}[h!]
+\centering
 \includegraphics[width=\textwidth]{plot.png}
 \label{plot}
 \end{figure}
 
 \begin{figure}[h!]
+\centering
 \includegraphics[width=0.5\textwidth]{best.png}
 \label{best}
 \end{figure}
