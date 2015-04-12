@@ -39,7 +39,8 @@ imwrite(high, 'high_lambda.png');
 
 lambda = linspace(1, 600, 50);
 ssd = zeros(10, 1);
-besti = i = 1;
+besti = 1;
+i = 1;
 for i = 1:length(lambda)
 	res = inpainting_NATHANGASS(g, omega, lambda(i), args{:});
 	ssd(i) = qnorm2(res - im);
