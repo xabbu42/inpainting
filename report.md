@@ -130,6 +130,7 @@ Progress of Gradient Descent
 ----------------------------
 
 \begin{figure}[h!]
+\setcounter{subfigure}{0}
 \begin{subfigure}{0.5\textwidth}
 \includegraphics[width=\textwidth]{early.png}
 \caption{After 10 iterations}
@@ -159,6 +160,7 @@ Lambda parameter
 ----------------
 
 \begin{figure}[h!]
+\setcounter{subfigure}{0}
 \begin{subfigure}{0.5\textwidth}
 \includegraphics[width=\textwidth]{vlow_lambda.png}
 \caption{$\lambda = 10$}
