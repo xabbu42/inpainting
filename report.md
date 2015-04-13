@@ -211,16 +211,16 @@ on the $\lambda$ parameter:
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.7\textwidth]{plot.png}
+\includegraphics[width=0.8\textwidth]{plot.png}
 \label{plot}
 \end{figure}
 
-The closest result was achieved with a $\lambda$ of 103 and had a SSD
-to the original of 140:
+The closest result was achieved with a $\lambda$ of 123.2 and had a SSD
+to the original of 103.6:
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.5\textwidth]{best.png}
+\includegraphics[width=0.45\textwidth]{best.png}
 \label{best}
 \end{figure}
 
