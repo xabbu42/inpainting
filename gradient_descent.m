@@ -8,6 +8,7 @@ p.addRequired('start');
 p.addRequired('cost');
 p.addRequired('grad');
 p.addOptional('iterations', 1000);
+p.addOptional('constantstep',  0);
 p.addOptional('alpha',      1e-2);
 p.addOptional('beta',       0.5);
 p.addOptional('error',      3e-6);
@@ -38,23 +39,32 @@ while it < opts.iterations && last_error > max_error
 
 	% calculate gradient
     gradu  = grad(u);
-
-    % backtrack line search
 	gradu_norm_squared = sum(sum(gradu .^ 2));  %TODO should not assume 2 dimensionsal problem
-    linear = opts.alpha * gradu_norm_squared;
-    t = 1;
-    while 1
+
+	% constant step factor
+	if (opts.constantstep)
+		t = opts.constantstep;
         step = t * gradu;
         newu = u - step;
         costnewu = cost(newu);
-        if ~isfinite(costnewu)
-            error 'inf or nan cost';
-        end
-        if costnewu <= costu - t * linear
-            break;
-        end
-        t = opts.beta*t;
-    end
+
+	% backtrack line search
+	else
+		t = 1;
+		linear = opts.alpha * gradu_norm_squared;
+		while 1
+			step = t * gradu;
+			newu = u - step;
+			costnewu = cost(newu);
+			if ~isfinite(costnewu)
+				error 'inf or nan cost';
+			end
+			if opts.constantstep || costnewu <= costu - t * linear
+				break;
+			end
+			t = opts.beta*t;
+		end
+	end
 
     % Update
     u = newu;
