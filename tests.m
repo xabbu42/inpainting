@@ -140,6 +140,6 @@ grad = @(u) forw_total_variation_grad(u, 'replicate');
 doit = @() gradient_descent(start, cost, grad, 'iterations', 2000, 'error', 5e-4, 'plot', 1);
 [res, meta] = doit();
 meta
-tc.verifyThat( res, IsEqualTo(res(1,1) * ones(20, 40), 'Within', AbsoluteTolerance(1e-2)), 'gradient descent to flat with total variation');
-tc.verifyThat( meta.it, IsLessThan(1500), '... converged before 1500 steps' );
-tc.verifyThat( meta.error, IsLessThan(1e-5), '... has small enough error' );
+tc.verifyThat( res, IsEqualTo(res(1,1) * ones(20, 40), 'Within', AbsoluteTolerance(1e-1)), 'gradient descent to flat with total variation');
+tc.verifyThat( meta.it, IsLessThan(1800), '... converged before 1800 steps' );
+tc.verifyThat( meta.error, IsLessThan(5e-4), '... has small enough error' );
