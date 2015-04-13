@@ -19,7 +19,7 @@ Problem
 
 The goal of inpainting algorithms is to recover missing or invalid
 parts of an image. The inputs for inpainting are an image $g$ together
-with a mask $\Omega$ identifing the valid parts of $g$.  The result is
+with a mask $\Omega$ identifying the valid parts of $g$.  The result is
 a new image $\tilde{u}$ which should be close to the original image
 $g$ where it is valid, and match the surroundings as closely as
 possible in the invalid parts. In this particular inpainting
@@ -203,7 +203,7 @@ pictures with 4 different values for $\lambda$ show this effect:
 Difference to the original image
 --------------------------------
 
-As our input image was syntethicaly generated and we do have the
+As our input image was synthetically generated and we do have the
 complete original image, we can compare the result of this algorithm
 to the original image. The following figure shows the sum of squared
 distances (SSD) between the result and the original image, depending
@@ -223,5 +223,3 @@ to the original of 103.6:
 \includegraphics[width=0.45\textwidth]{best.png}
 \label{best}
 \end{figure}
-
-
