@@ -65,6 +65,7 @@ plot(lambda, ssd);
 xlabel('lambda');
 ylabel('SSD');
 set(gca,'FontSize', 10);
+set(findall(gcf,'type','text'), 'FontSize', 12, 'fontWeight','bold');
 print('plot', '-dpng');
 
 
