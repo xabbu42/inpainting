@@ -15,9 +15,9 @@ omega(unique(round((31:65) * scale)), unique(round((166:194) * scale))) = 0;
 g = im.*omega;
 
 
-lambda = 200;
+lambda = 100;
 
-uG = inpainting_NATHANGASS(g,omega,lambda, 'alpha', 1e-2, 'beta', 0.5, 'plot', 1, 'iterations', 2000);
+uG = inpainting_NATHANGASS(g,omega,lambda, 'alpha', 1e-2, 'beta', 0.5, 'plot', 1, 'iterations', 5000);
 di = abs(g - uG);
 di = di / max(di(:));
 
