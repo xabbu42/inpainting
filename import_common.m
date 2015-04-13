@@ -1,7 +1,7 @@
 function msg = import_common()
 % defines some helper functions
 assignin('caller', 'sum2',  @(m) sum(sum(m)));
-assignin('caller', 'msum',  @(m) sum(m(:)));
+assignin('caller', 'msum',  @(m) sum(m(:))); % slower but does not assume 2-dimensional
 assignin('caller', 'qnorm2', @(m) sum(sum(m .^ 2)));
 
 assignin('caller', 'conv2boundary', @conv2boundary);

@@ -15,7 +15,7 @@ p.addOptional('plot',       0);
 parse(p, start, cost, grad, varargin{:})
 opts = p.Results;
 
-%% Gradient descent
+% Initialization
 tic;
 
 max_error = opts.error * numel(start);
@@ -33,13 +33,15 @@ if opts.plot
 	set(findall(gcf,'type','text'), 'FontSize', 20,'fontWeight','bold');
 end
 
+% Gradient descent
 while it < opts.iterations && last_error > max_error
 
+	% calculate gradient
     gradu  = grad(u);
-	gradu_norm_squared = sum(sum(gradu .^ 2));  %TODO should not assume 2 dimensionsal problem
-    linear = opts.alpha * gradu_norm_squared;
 
     % backtrack line search
+	gradu_norm_squared = sum(sum(gradu .^ 2));  %TODO should not assume 2 dimensionsal problem
+    linear = opts.alpha * gradu_norm_squared;
     t = 1;
     while 1
         step = t * gradu;
