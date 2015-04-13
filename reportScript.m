@@ -56,6 +56,8 @@ for i = 1:length(lambda)
 	end
 end
 
+save('plotdata.mat', 'lambda', 'ssd', 'besti');
+
 lambda(besti)
 ssd(besti)
 
