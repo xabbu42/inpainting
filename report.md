@@ -67,7 +67,7 @@ function $E$:
 
 \begin{equation*}
 \begin{split}
-\norm{u - g}^2_\Omega & \simeq \sum_{x,y}{\Omega(x,y) \norm{u[x,y] - g[x,y]}^2} \\
+\norm{u - g}^2_\Omega & \simeq \sum_{x,y}{\Omega[x,y] \norm{u[x,y] - g[x,y]}^2} \\
     \norm{\nabla u}_2 & \simeq \sum_{i,j}\tau[i,j]
 \end{split}
 \end{equation*}
