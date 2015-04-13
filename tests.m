@@ -40,6 +40,13 @@ grad = forw_total_variation_grad(n);
 tc.verifyThat(grad(2,2), IsEqualTo((1/tau(2,2)) * (2 * n(2,2) - n(3,2) - n(2,3)) + (1/tau(1,2)) * (n(2,2) - n(1,2)) + (1/tau(2,1)) * (n(2,2) - n(2,1)), 'Within', AbsoluteTolerance(1e-8)), 'forward total variation gradient inside');
 tc.verifyThat(grad(3,2), IsEqualTo((1/tau(3,2)) * (2 * n(3,2) - n(4,2) - n(3,3)) + (1/tau(2,2)) * (n(3,2) - n(2,2)) + (1/tau(3,1)) * (n(3,2) - n(3,1)), 'Within', AbsoluteTolerance(1e-8)), 'forward total variation gradient inside');
 
+n = 10 * rand(10) - 5;
+tau = central_variation(n);
+tc.verifyThat(tau(2,2), IsEqualTo(sqrt(((n(3,2) - n(1,2))/2)^2 + ((n(2,3) - n(2,1))/2)^2), 'Within', AbsoluteTolerance(1e-4)), 'central variation inside');
+
+grad = central_total_variation_grad(n);
+tc.verifyThat(grad(3,3), IsEqualTo(0.5 * ((1/tau(2,3)) * (n(3,3) - n(1,3)) - (1/tau(4,3)) * (n(5,3) - n(3,3)) + (1/tau(3,2)) * (n(3,3) - n(3,1)) - (1/tau(3,4)) * (n(3,5) - n(3,3))), 'Within', AbsoluteTolerance(1e-8)), 'central total variation gradient');
+
 % gradient descent to given target
 
 cost = @(u) qnorm2(u - m);
