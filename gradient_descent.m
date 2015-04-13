@@ -78,7 +78,7 @@ while it < opts.iterations && last_error > max_error
     it = it + 1;
 end
 
-meta = struct('it', it, 'error', last_error / numel(start), 'cost', cost(u), 'time', toc);
+meta = struct('it', it, 'error', last_error / numel(start), 'cost', cost(u), 'startcost', cost(start), 'time', toc);
 
 end
 
