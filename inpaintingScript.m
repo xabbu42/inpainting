@@ -17,7 +17,8 @@ g = im.*omega;
 
 lambda = 100;
 
-uG = inpainting_NATHANGASS(g,omega,lambda, 'alpha', 1e-2, 'beta', 0.5, 'plot', 1, 'iterations', 5000);
+uG = inpainting_NATHANGASS(g,omega,lambda, 'plot', 1, 'iterations', 2000);
+%uG = inpainting_NATHANGASS(g,omega,lambda, 'alpha', 1e-2, 'beta', 0.5, 'plot', 1, 'iterations', 5000);
 %uG = inpainting_NATHANGASS(g, omega, 50, 'constantstep', 1e-2, 'plot', 1, 'iterations', 1000);
 
 di = abs(g - uG);
