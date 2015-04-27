@@ -7,36 +7,16 @@ p = inputParser;
 p.addRequired('start');
 p.addRequired('cost');
 p.addRequired('grad');
-p.addOptional('iterations', 1000);
 p.addOptional('constantstep',  0);
 p.addOptional('alpha',      1e-2);
 p.addOptional('beta',       0.5);
-p.addOptional('error',      3e-6);
-p.addOptional('plot',       0);
+p.KeepUnmatched = true;
 parse(p, start, cost, grad, varargin{:})
 opts = p.Results;
 
-% Initialization
-tic;
+costu = cost(start);
 
-max_error = opts.error * numel(start);
-last_error = max_error + 1;
-
-it = 1;
-u = start;
-costu = cost(u);
-
-if opts.plot
-	p = plot([costu]);
-	title('Cost');
-	xlim([0 opts.iterations]);
-	set(gca,'FontSize', 14);
-	set(findall(gcf,'type','text'), 'FontSize', 20,'fontWeight','bold');
-end
-
-% Gradient descent
-while it < opts.iterations && last_error > max_error
-
+function [u, err] = gradient_descent_step(u)
 	% calculate gradient
     gradu  = grad(u);
 	gradu_norm_squared = sum(sum(gradu .^ 2));  %TODO should not assume 2 dimensionsal problem
@@ -69,16 +49,9 @@ while it < opts.iterations && last_error > max_error
     % Update
     u = newu;
     costu = costnewu;
-
-	if opts.plot
-		set(p, 'YData', [get(p, 'YData'), costu]);
-		drawnow;
-	end
-    last_error = sqrt(gradu_norm_squared);
-    it = it + 1;
+	err = sqrt(gradu_norm_squared);
 end
 
-meta = struct('it', it, 'error', last_error / numel(start), 'cost', cost(u), 'startcost', cost(start), 'time', toc);
+[u, meta] = iterate(start, cost, @gradient_descent_step, p.Unmatched(:));
 
 end
-
