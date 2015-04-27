@@ -1,24 +1,61 @@
-function msg = import_common()
+function msg = import_common(varargin)
 % defines some helper functions
-assignin('caller', 'sum2',  @(m) sum(sum(m)));
-assignin('caller', 'msum',  @(m) sum(m(:))); % slower but does not assume 2-dimensional
-assignin('caller', 'qnorm2', @(m) sum(sum(m .^ 2)));
+% For variable preallocation:
 
-assignin('caller', 'conv2boundary', @conv2boundary);
-assignin('caller', 'forwx', @forwx);
-assignin('caller', 'forwy', @forwy);
-assignin('caller', 'centralx', @centralx);
-assignin('caller', 'centraly', @centraly);
-assignin('caller', 'backx', @(m, b) conv2boundary(m, [0 1 -1], b));
-assignin('caller', 'backy', @(m, b) conv2boundary(m, [0 1 -1]', b));
+names = varargin;
 
-assignin('caller', 'forw_variation', @forw_variation);
-assignin('caller', 'forw_total_variation', @forw_total_variation);
-assignin('caller', 'forw_total_variation_grad', @forw_total_variation_grad);
+if isempty(names) || ismember('sum2', names)
+	assignin('caller', 'sum2',  @(m) sum(sum(m)));
+end
 
-assignin('caller', 'central_variation', @central_variation);
-assignin('caller', 'central_total_variation', @central_total_variation);
-assignin('caller', 'central_total_variation_grad', @central_total_variation_grad);
+if isempty(names) || ismember('msum', names)
+	assignin('caller', 'msum',  @(m) sum(m(:))); % slower but does not assume 2-dimensional
+end
+if isempty(names) || ismember('qnorm2', names)
+	assignin('caller', 'qnorm2', @(m) sum(sum(m .^ 2)));
+end
+
+if isempty(names) || ismember('conv2boundary', names)
+	assignin('caller', 'conv2boundary', @conv2boundary);
+end
+if isempty(names) || ismember('forwx', names)
+	assignin('caller', 'forwx', @forwx);
+end
+if isempty(names) || ismember('forwy', names)
+	assignin('caller', 'forwy', @forwy);
+end
+if isempty(names) || ismember('centralx', names)
+	assignin('caller', 'centralx', @centralx);
+end
+if isempty(names) || ismember('centraly', names)
+	assignin('caller', 'centraly', @centraly);
+end
+if isempty(names) || ismember('backx', names)
+	assignin('caller', 'backx', @(m, b) conv2boundary(m, [0 1 -1], b));
+end
+if isempty(names) || ismember('backy', names)
+	assignin('caller', 'backy', @(m, b) conv2boundary(m, [0 1 -1]', b));
+end
+
+if isempty(names) || ismember('forw_variation', names)
+	assignin('caller', 'forw_variation', @forw_variation);
+end
+if isempty(names) || ismember('forw_total_variation', names)
+	assignin('caller', 'forw_total_variation', @forw_total_variation);
+end
+if isempty(names) || ismember('forw_total_variation_grad', names)
+	assignin('caller', 'forw_total_variation_grad', @forw_total_variation_grad);
+end
+
+if isempty(names) || ismember('central_variation', names)
+	assignin('caller', 'central_variation', @central_variation);
+end
+if isempty(names) || ismember('central_total_variation', names)
+	assignin('caller', 'central_total_variation', @central_total_variation);
+end
+if isempty(names) || ismember('central_total_variation_grad', names)
+	assignin('caller', 'central_total_variation_grad', @central_total_variation_grad);
+end
 
 msg = 'imported common functions';
 end
