@@ -59,25 +59,34 @@ function [r] = forwy(m, b)
 	r = conv2boundary(m, [1 -1]', b);
 end
 
-function [r] = forw_variation(u, b)
+function [r] = forw_variation(u, b, d)
 	if (nargin < 2)
 		b = 0;
 	end
-	r = sqrt(forwx(u, b) .^ 2 + forwy(u, b) .^ 2 + 1e-5);
+	if (nargin < 3)
+		d = 1e-5;
+	end
+	r = sqrt(forwx(u, b) .^ 2 + forwy(u, b) .^ 2 + d);
 end
 
-function [r] = forw_total_variation(u, b)
+function [r] = forw_total_variation(u, b, d)
 	if (nargin < 2)
 		b = 0;
 	end
-	r = sum(sum(forw_variation(u, b)));
+	if (nargin < 3)
+		d = 1e-5;
+	end
+	r = sum(sum(forw_variation(u, b, d)));
 end
 
-function [r] = forw_total_variation_grad(u, b)
+function [r] = forw_total_variation_grad(u, b, d)
 	if (nargin < 2)
 		b = 0;
 	end
-	inverse_var = 1 ./ forw_variation(u, b);
+	if (nargin < 3)
+		d = 1e-5;
+	end
+	inverse_var = 1 ./ forw_variation(u, b, d);
 	r = conv2(inverse_var .* forwx(u, b), [0 -1 +1], 'same') + conv2(inverse_var .* forwy(u, b), [0 -1 +1]', 'same');
 end
 
