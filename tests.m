@@ -16,15 +16,11 @@ tc.verifyThat(    backx(m, 0), IsEqualTo( [1 1 1; 4 1 1; 7 1 1] ),    'backward 
 tc.verifyThat(    backy(m, 0), IsEqualTo( [1 2 3; 3 3 3; 3 3 3] ),    'backward difference x, zero boundary' );
 tc.verifyThat(    forwx(m, 0), IsEqualTo( [1 1 -3; 1 1 -6; 1 1 -9] ), 'forward difference x, zero boundary' );
 tc.verifyThat(    forwy(m, 0), IsEqualTo( [3 3 3; 3 3 3; -7 -8 -9] ), 'forward difference x, zero boundary' );
-tc.verifyThat( centralx(m, 0), IsEqualTo( 0.5 * [2 2 -2; 5 2 -5; 8 2 -8] ), 'central difference x, zero boundary' );
-tc.verifyThat( centraly(m, 0), IsEqualTo( 0.5 * [4 5 6; 6 6 6; -4 -5 -6] ), 'central difference x, zero boundary' );
 
 tc.verifyThat( backx(m, 1), IsEqualTo( [0 1 1; 3 1 1; 6 1 1] ),    'backward difference x, 1 boundary' );
 tc.verifyThat( backy(m, 1), IsEqualTo( [0 1 2; 3 3 3; 3 3 3] ),    'backward difference x, 1 boundary' );
 tc.verifyThat( forwx(m, 1), IsEqualTo( [1 1 -2; 1 1 -5; 1 1 -8] ), 'forward difference x, 1 boundary' );
 tc.verifyThat( forwy(m, 1), IsEqualTo( [3 3 3; 3 3 3; -6 -7 -8] ), 'forward difference x, 1 boundary' );
-tc.verifyThat( centralx(m, 1), IsEqualTo( 0.5 * [1 2 -1; 4 2 -4; 7 2 -7] ), 'central difference x, 1 boundary' );
-tc.verifyThat( centraly(m, 1), IsEqualTo( 0.5 * [3 4 5; 6 6 6; -3 -4 -5] ), 'central difference x, 1 boundary' );
 
 tc.verifyThat( backx(m, 'replicate'), IsEqualTo( [0 1 1; 0 1 1; 0 1 1] ), 'backward difference x, constant boundary' );
 tc.verifyThat( backy(m, 'replicate'), IsEqualTo( [0 0 0; 3 3 3; 3 3 3] ), 'backward difference x, constant boundary' );
@@ -39,24 +35,6 @@ tc.verifyThat(tau(4,2), IsEqualTo(sqrt((     0 - n(4,2))^2 + (n(4,3) - n(4,2))^2
 grad = forw_total_variation_grad(n);
 tc.verifyThat(grad(2,2), IsEqualTo((1/tau(2,2)) * (2 * n(2,2) - n(3,2) - n(2,3)) + (1/tau(1,2)) * (n(2,2) - n(1,2)) + (1/tau(2,1)) * (n(2,2) - n(2,1)), 'Within', AbsoluteTolerance(1e-8)), 'forward total variation gradient inside');
 tc.verifyThat(grad(3,2), IsEqualTo((1/tau(3,2)) * (2 * n(3,2) - n(4,2) - n(3,3)) + (1/tau(2,2)) * (n(3,2) - n(2,2)) + (1/tau(3,1)) * (n(3,2) - n(3,1)), 'Within', AbsoluteTolerance(1e-8)), 'forward total variation gradient inside');
-
-n = 10 * rand(10) - 5;
-tau = central_variation(n);
-tc.verifyThat(tau(2,2), IsEqualTo(sqrt(((n(3,2) - n(1,2))/2)^2 + ((n(2,3) - n(2,1))/2)^2), 'Within', AbsoluteTolerance(1e-4)), 'central variation inside');
-
-grad = central_total_variation_grad(n);
-tc.verifyThat( ...
-	grad(3,3), ...
-	IsEqualTo( ...
-		0.5 * (+ (1/tau(2,3)) * (n(3,3) - n(1,3))   ...
-		       - (1/tau(4,3)) * (n(5,3) - n(3,3))   ...
-		       + (1/tau(3,2)) * (n(3,3) - n(3,1))   ...
-		       - (1/tau(3,4)) * (n(3,5) - n(3,3))), ...
-		'Within', AbsoluteTolerance(1e-8) ...
-	), ...
-	'central total variation gradient' ...
-);
-
 
 % gradient descent to given target
 
