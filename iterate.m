@@ -35,9 +35,11 @@ while it < opts.iterations && last_error > max_error
 	[u, last_error] = func(u);
 	if opts.plot
 		set(p, 'YData', [get(p, 'YData'), cost(u)]);
-		drawnow;
+		if mod(it, 25) == 0
+			drawnow;
+		end
 	end
-    it = it + 1;
+	it = it + 1;
 end
 
 meta = struct('it', it, 'error', last_error / numel(start), 'cost', cost(u), 'startcost', cost(start), 'time', toc);
