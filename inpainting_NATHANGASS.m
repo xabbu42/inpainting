@@ -21,25 +21,32 @@ if ismember('method', p.UsingDefaults) && (any(strcmp('alpha', varargin)) || any
 	opts.method = 'gradientdescent';
 end
 
+forwx = sym('forwx');
+forwy = sym('forwy');
+backx = sym('backx');
+backy = sym('backy');
 forw_variation = sym('forw_variation');
 forw_total_variation = sym('forw_total_variation');
 forw_total_variation_grad = sym('forw_total_variation_grad');
-import_common('forw_variation', 'forw_total_variation', 'forw_total_variation_grad');
+import_common('forwx', 'forwy', 'backx', 'backy', 'forw_variation', 'forw_total_variation', 'forw_total_variation_grad');
 
-delta = 0;
-p = zeros(size(g));
+delta = 1e-5;
+px = zeros(size(g));
+py = zeros(size(g));
 lastu = g;
 function [u, error] = primal_dual_step(u)
 	ubar = (u + opts.theta * (u - lastu));
-	p = p + opts.sigma * forw_variation(ubar, 0, delta);
-	p = p ./ max(1, sqrt(sum(sum(p .^ 2))));
+    px = px + opts.sigma * forwx(u);
+    py = py + opts.sigma * forwy(u);
+    l = max(1, sqrt(px .^ 2 + py .^ 2));
+    px = px ./ l;
+    py = py ./ l;
 
+    Kp = backx(px, 0) + backy(py, 0);
 	lastu = u;
-	u = (u + opts.tau * forw_variation(p, 0, delta) + opts.tau * opts.lambda * (omega .* g)) ./ (ones(size(u)) + opts.tau * opts.lambda * omega);
+	u = (u + opts.tau * Kp + opts.tau * opts.lambda * (omega .* g)) ./ (ones(size(u)) + opts.tau * opts.lambda * omega);
 	error = numel(g);
 end
-
-
 
 if strcmp(opts.method, 'gradientdescent')
 	delta = 1e-5;
