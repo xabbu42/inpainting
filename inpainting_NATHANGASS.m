@@ -69,6 +69,9 @@ elseif strcmp(opts.method, 'primaldual')
 	cost = @(u) (lambda/2) * sum(sum(omega .* (u - g) .^ 2)) + forw_total_variation(u, 0, delta);
 
 	[u, meta] = iterate(g, cost, @primal_dual_step, rest(:));
+	meta.sigma = opts.sigma;
+	meta.tau = opts.tau;
+	meta.theta = opts.theta;
 else
 	error 'Unknown method ' + opts.method;
 end

@@ -54,4 +54,11 @@ end
 
 [u, meta] = iterate(start, cost, @gradient_descent_step, p.Unmatched(:));
 
+if (opts.constantstep)
+	meta.constantstep = opts.constantstep;
+else
+	meta.alpha = opts.alpha;
+	meta.beta = opts.beta;
+end
+
 end
