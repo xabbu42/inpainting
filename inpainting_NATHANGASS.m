@@ -46,7 +46,7 @@ py = zeros(size(g));
 lastu = g;
 function [u, error] = primal_dual_step(u)
 	ubar = (u + opts.theta * (u - lastu));
-    
+
     px = px + opts.sigma * forwx(ubar);
     py = py + opts.sigma * forwy(ubar);
     l = max(1, sqrt(px .^ 2 + py .^ 2));
@@ -55,7 +55,7 @@ function [u, error] = primal_dual_step(u)
 
     Kp = backx(px) + backy(py);
 	lastu = u;
-	u = (u + opts.tau * Kp + opts.tau * opts.lambda * (omega .* g)) ./ (ones(size(u)) + opts.tau * opts.lambda * omega);
+	u = (u + opts.tau * Kp + opts.tau * opts.lambda * (omega .* g)) ./ (1 + opts.tau * opts.lambda * omega);
 	error = numel(g);
 end
 
