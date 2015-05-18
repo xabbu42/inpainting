@@ -9,9 +9,9 @@ p.addRequired('g');
 p.addRequired('omega');
 p.addRequired('lambda');
 p.addOptional('method', 'primaldual');
-p.addOptional('theta', 1);
-p.addOptional('sigma', 0.01);
-p.addOptional('tau', 0.01);
+p.addOptional('theta', 0.5);
+p.addOptional('sigma', 0.5);
+p.addOptional('tau', 0.5);
 p.KeepUnmatched = true;
 parse(p, g, omega, lambda, varargin{:})
 opts = p.Results;
@@ -36,8 +36,9 @@ py = zeros(size(g));
 lastu = g;
 function [u, error] = primal_dual_step(u)
 	ubar = (u + opts.theta * (u - lastu));
-    px = px + opts.sigma * forwx(u);
-    py = py + opts.sigma * forwy(u);
+    
+    px = px + opts.sigma * forwx(ubar);
+    py = py + opts.sigma * forwy(ubar);
     l = max(1, sqrt(px .^ 2 + py .^ 2));
     px = px ./ l;
     py = py ./ l;
@@ -55,6 +56,8 @@ if strcmp(opts.method, 'gradientdescent')
 	[u, meta] = gradient_descent(g, cost, grad, varargin{:});
 
 elseif strcmp(opts.method, 'primaldual')
+	assert(opts.sigma * opts.tau * sqrt(8) > 1, 'Too large sigma or tau');
+
 	cost = @(u) (lambda/2) * sum(sum(omega .* (u - g) .^ 2)) + forw_total_variation(u, 0, delta);
 
 	[u, meta] = iterate(g, cost, @primal_dual_step, rest(:));
