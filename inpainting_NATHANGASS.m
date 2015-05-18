@@ -17,6 +17,16 @@ parse(p, g, omega, lambda, varargin{:})
 opts = p.Results;
 rest = p.Unmatched;
 
+if ismember('sigma', p.UsingDefaults)
+	opts.sigma = 1 / (sqrt(8) * opts.tau);
+end
+
+if ismember('tau', p.UsingDefaults)
+	opts.tau = 1 / (sqrt(8) * opts.sigma);
+end
+
+assert(opts.sigma * opts.tau * sqrt(8) <= 1, 'Too large sigma or tau');
+
 if ismember('method', p.UsingDefaults) && (any(strcmp('alpha', varargin)) || any(strcmp('beta', varargin)) || any(strcmp('constantstep', varargin)))
 	opts.method = 'gradientdescent';
 end
@@ -56,8 +66,6 @@ if strcmp(opts.method, 'gradientdescent')
 	[u, meta] = gradient_descent(g, cost, grad, varargin{:});
 
 elseif strcmp(opts.method, 'primaldual')
-	assert(opts.sigma * opts.tau * sqrt(8) > 1, 'Too large sigma or tau');
-
 	cost = @(u) (lambda/2) * sum(sum(omega .* (u - g) .^ 2)) + forw_total_variation(u, 0, delta);
 
 	[u, meta] = iterate(g, cost, @primal_dual_step, rest(:));
