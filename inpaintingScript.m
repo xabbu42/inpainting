@@ -19,7 +19,7 @@ lambda = 200;
 
 uG = inpainting_NATHANGASS(g,omega,lambda, 'plot', 1, 'iterations', 1000, 'sigma', 0.5, 'tau', 0.5, 'theta', 0.5);
 %uG = inpainting_NATHANGASS(g,omega,lambda, 'alpha', 1/3, 'beta', 0.5, 'plot', 1, 'iterations', 5000);
-%uG = inpainting_NATHANGASS(g, omega, 50, 'constantstep', 3e-3, 'plot', 1, 'iterations', 2000);
+%uG = inpainting_NATHANGASS(g, omega,lambda, 'constantstep', 3e-3, 'plot', 1, 'iterations', 2000);
 
 di = abs(g - uG);
 di = di / max(di(:));
