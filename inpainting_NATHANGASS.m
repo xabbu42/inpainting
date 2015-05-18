@@ -17,11 +17,11 @@ parse(p, g, omega, lambda, varargin{:})
 opts = p.Results;
 rest = p.Unmatched;
 
-if ismember('sigma', p.UsingDefaults)
+if ismember('sigma', p.UsingDefaults) || opts.sigma == 0
 	opts.sigma = 1 / (sqrt(8) * opts.tau);
 end
 
-if ismember('tau', p.UsingDefaults)
+if ismember('tau', p.UsingDefaults) || opts.tau == 0
 	opts.tau = 1 / (sqrt(8) * opts.sigma);
 end
 
