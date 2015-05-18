@@ -42,7 +42,7 @@ function [u, error] = primal_dual_step(u)
     px = px ./ l;
     py = py ./ l;
 
-    Kp = backx(px, 0) + backy(py, 0);
+    Kp = backx(px) + backy(py);
 	lastu = u;
 	u = (u + opts.tau * Kp + opts.tau * opts.lambda * (omega .* g)) ./ (ones(size(u)) + opts.tau * opts.lambda * omega);
 	error = numel(g);

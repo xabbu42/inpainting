@@ -25,10 +25,10 @@ if isempty(names) || ismember('forwy', names)
 	assignin('caller', 'forwy', @forwy);
 end
 if isempty(names) || ismember('backx', names)
-	assignin('caller', 'backx', @(m, b) conv2boundary(m, [0 1 -1], b));
+	assignin('caller', 'backx', @backx);
 end
 if isempty(names) || ismember('backy', names)
-	assignin('caller', 'backy', @(m, b) conv2boundary(m, [0 1 -1]', b));
+	assignin('caller', 'backy', @backy);
 end
 
 if isempty(names) || ismember('forw_variation', names)
@@ -57,6 +57,20 @@ function [r] = forwy(m, b)
 		b = 0;
 	end
 	r = conv2boundary(m, [1 -1]', b);
+end
+
+function [r] = backx(m, b)
+	if (nargin < 2)
+		b = 0;
+	end
+	r = conv2boundary(m, [0 1 -1], b);
+end
+
+function [r] = backy(m, b)
+	if (nargin < 2)
+		b = 0;
+	end
+	r = conv2boundary(m, [0 1 -1]', b);
 end
 
 function [r] = forw_variation(u, b, d)
