@@ -9,30 +9,38 @@ p.addRequired('g');
 p.addRequired('omega');
 p.addRequired('lambda');
 p.addOptional('method', 'primaldual');
+
+%parameters for primal dual
 p.addOptional('theta', 0.5);
 p.addOptional('sigma', 0.5);
 p.addOptional('tau', 0.5);
+
+%pass on remaining parameters to gradient_descent/iterate
 p.KeepUnmatched = true;
+
+%parse parameters
 parse(p, g, omega, lambda, varargin{:})
 opts = p.Results;
 rest = p.Unmatched;
 
+% Set missing (or explicitly set to 0) parameters for primal dual
 L = sqrt(4);
-
 if ismember('sigma', p.UsingDefaults) || opts.sigma == 0
 	opts.sigma = 1 / (L * opts.tau);
 end
-
 if ismember('tau', p.UsingDefaults) || opts.tau == 0
 	opts.tau = 1 / (L * opts.sigma);
 end
-
 assert(opts.sigma * opts.tau * L <= 1, 'Too large sigma or tau');
 
+% guess method based on parameters
 if ismember('method', p.UsingDefaults) && (any(strcmp('alpha', varargin)) || any(strcmp('beta', varargin)) || any(strcmp('constantstep', varargin)))
 	opts.method = 'gradientdescent';
 end
 
+%specialized primal dual implementation for inpainting
+
+%necessary so we can use closure for primal dual below
 forwx = sym('forwx');
 forwy = sym('forwy');
 backx = sym('backx');
@@ -61,15 +69,17 @@ function [u, error] = primal_dual_step(u)
 	error = numel(g);
 end
 
+% use generic gradient_descent function with custom cost and gradient for
+% gradientdescent method
 if strcmp(opts.method, 'gradientdescent')
 	delta = 1e-5;
 	cost = @(u) (lambda/2) * sum(sum(omega .* (u - g) .^ 2)) + forw_total_variation(u, 0, delta);
 	grad = @(u) lambda * (omega .* (u - g)) + forw_total_variation_grad(u, 0, delta);
 	[u, meta] = gradient_descent(g, cost, grad, varargin{:});
 
+% just iterate above defined primal dual step for primaldual method
 elseif strcmp(opts.method, 'primaldual')
 	cost = @(u) (lambda/2) * sum(sum(omega .* (u - g) .^ 2)) + forw_total_variation(u, 0, delta);
-
 	[u, meta] = iterate(g, cost, @primal_dual_step, rest(:));
 	meta.sigma = opts.sigma;
 	meta.tau = opts.tau;
