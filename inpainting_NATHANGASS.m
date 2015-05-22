@@ -17,15 +17,17 @@ parse(p, g, omega, lambda, varargin{:})
 opts = p.Results;
 rest = p.Unmatched;
 
+L = sqrt(4);
+
 if ismember('sigma', p.UsingDefaults) || opts.sigma == 0
-	opts.sigma = 1 / (sqrt(8) * opts.tau);
+	opts.sigma = 1 / (L * opts.tau);
 end
 
 if ismember('tau', p.UsingDefaults) || opts.tau == 0
-	opts.tau = 1 / (sqrt(8) * opts.sigma);
+	opts.tau = 1 / (L * opts.sigma);
 end
 
-assert(opts.sigma * opts.tau * sqrt(8) <= 1, 'Too large sigma or tau');
+assert(opts.sigma * opts.tau * L <= 1, 'Too large sigma or tau');
 
 if ismember('method', p.UsingDefaults) && (any(strcmp('alpha', varargin)) || any(strcmp('beta', varargin)) || any(strcmp('constantstep', varargin)))
 	opts.method = 'gradientdescent';
