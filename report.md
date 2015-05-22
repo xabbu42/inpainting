@@ -140,22 +140,22 @@ Progress of Gradient Descent
 \begin{figure}[h!]
 \setcounter{subfigure}{0}
 \begin{subfigure}{0.5\textwidth}
-\includegraphics[width=\textwidth]{early.png}
+\includegraphics[width=\textwidth]{gradientdescent-early.png}
 \caption{After 10 iterations}
 \label{original}
 \end{subfigure}
 \begin{subfigure}{0.5\textwidth}
-\includegraphics[width=\textwidth]{mid.png}
+\includegraphics[width=\textwidth]{gradientdescent-mid.png}
 \caption{After 1000 iterations}
 \label{input}
 \end{subfigure}
 \begin{subfigure}{0.5\textwidth}
-\includegraphics[width=\textwidth]{late.png}
+\includegraphics[width=\textwidth]{gradientdescent-late.png}
 \caption{After 2500 iterations}
 \label{input}
 \end{subfigure}
 \begin{subfigure}{0.5\textwidth}
-\includegraphics[width=\textwidth]{final.png}
+\includegraphics[width=\textwidth]{gradientdescent-final.png}
 \caption{After 5000 iterations}
 \label{input}
 \end{subfigure}
@@ -176,22 +176,22 @@ pictures with 4 different values for $\lambda$ show this effect:
 \begin{figure}[h!]
 \setcounter{subfigure}{0}
 \begin{subfigure}{0.5\textwidth}
-\includegraphics[width=\textwidth]{vlow_lambda.png}
+\includegraphics[width=\textwidth]{gradientdescent-vlow_lambda.png}
 \caption{$\lambda = 10$}
 \label{original}
 \end{subfigure}
 \begin{subfigure}{0.5\textwidth}
-\includegraphics[width=\textwidth]{low_lambda.png}
+\includegraphics[width=\textwidth]{gradientdescent-low_lambda.png}
 \caption{$\lambda = 50$}
 \label{original}
 \end{subfigure}
 \begin{subfigure}{0.5\textwidth}
-\includegraphics[width=\textwidth]{final.png}
+\includegraphics[width=\textwidth]{gradientdescent-final.png}
 \caption{$\lambda = 100$}
 \label{input}
 \end{subfigure}
 \begin{subfigure}{0.5\textwidth}
-\includegraphics[width=\textwidth]{high_lambda.png}
+\includegraphics[width=\textwidth]{gradientdescent-high_lambda.png}
 \caption{$\lambda = 1000$}
 \label{input}
 \end{subfigure}
@@ -211,7 +211,7 @@ on the $\lambda$ parameter:
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.8\textwidth]{plot.png}
+\includegraphics[width=0.8\textwidth]{gradientdescent-plot.png}
 \label{plot}
 \end{figure}
 
@@ -220,6 +220,7 @@ to the original of 103.6:
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.45\textwidth]{best.png}
+\includegraphics[width=0.45\textwidth]{gradientdescent-best.png}
 \label{best}
 \end{figure}
+
