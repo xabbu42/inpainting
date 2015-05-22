@@ -6,10 +6,15 @@ author:
 header-includes:
     - \usepackage{caption,subcaption}
     - \usepackage{mathtools}
+    - \usepackage{placeins}
     - \DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
     - \DeclareMathOperator*{\argmin}{arg\,min}
+    - \DeclareMathOperator*{\argmax}{arg\,max}
 	- \everymath{\displaystyle}
 ...
+
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\qnorm}[1]{\norm{#1}_2^2}
 
 Inpainting
 ==========
@@ -98,17 +103,17 @@ The gradient of our cost function $E(u)$ is:
 \begin{equation*}
 \begin{split}
 \frac{\delta \tau[i,j]}{\delta u[i,j]}
-  & = \frac{1}{2} \frac{1}{\tau[i,j]} \bigl(2 (u[i+1,j] - u[i,j]) (-1) + 2 (u[i,j+1] - u[i,j]) (-1)\bigr) \\
+  & = \half \frac{1}{\tau[i,j]} \bigl(2 (u[i+1,j] - u[i,j]) (-1) + 2 (u[i,j+1] - u[i,j]) (-1)\bigr) \\
   & = \frac{1}{\tau[i,j]} (2u[i,j] - u[i+1,j] - u[i,j+1]) \\
   & = \frac{1}{\tau[i,j]} (-forw_x[i,j] - forw_y[i,j]) \\
 \\
 \frac{\delta \tau[i-1,j]}{\delta u[i,j]}
-  & = \frac{1}{2} \frac{1}{\tau[i-1,j]} \bigl( 2 (u[i,j] - u[i-1,j]) + 2 (u[i-1,j+1] - u[i-1,j]) 0 \bigr)\\
+  & = \half \frac{1}{\tau[i-1,j]} \bigl( 2 (u[i,j] - u[i-1,j]) + 2 (u[i-1,j+1] - u[i-1,j]) 0 \bigr)\\
   & = \frac{1}{\tau[i-1,j]} (u[i,j] - u[i-1,j]) \\
   & = \frac{1}{\tau[i-1,j]} forw_x[i-1,j] \\
 \\
 \frac{\delta \tau[i-1,j]}{\delta u[i,j]}
-  & = \frac{1}{2} \frac{1}{\tau[i,j-1]} \bigl(2 (u[i+1,j-1] - u[i,j-1]) 0 + 2 (u[i,j] - u[i,j-1])\bigr) \\
+  & = \half \frac{1}{\tau[i,j-1]} \bigl(2 (u[i+1,j-1] - u[i,j-1]) 0 + 2 (u[i,j] - u[i,j-1])\bigr) \\
   & = \frac{1}{\tau[i,j-1]} (u[i,j] - u[i,j - 1]) \\
   & = \frac{1}{\tau[i,j-1]} forw_y[i,j-1]
 \end{split}
@@ -215,12 +220,11 @@ on the $\lambda$ parameter:
 \label{plot}
 \end{figure}
 
-The closest result was achieved with a $\lambda$ of 123.2 and had a SSD
-to the original of 103.6:
+The closest result was achieved with a $\lambda$ of 306 and had a SSD
+to the original of 15.34:
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.45\textwidth]{gradientdescent-best.png}
 \label{best}
 \end{figure}
-
