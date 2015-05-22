@@ -75,7 +75,7 @@ if strcmp(opts.method, 'gradientdescent')
 	delta = 1e-5;
 	cost = @(u) (lambda/2) * sum(sum(omega .* (u - g) .^ 2)) + forw_total_variation(u, 0, delta);
 	grad = @(u) lambda * (omega .* (u - g)) + forw_total_variation_grad(u, 0, delta);
-	[u, meta] = gradient_descent(g, cost, grad, varargin{:});
+	[u, meta] = gradient_descent(g, cost, grad, rest(:));
 
 % just iterate above defined primal dual step for primaldual method
 elseif strcmp(opts.method, 'primaldual')
